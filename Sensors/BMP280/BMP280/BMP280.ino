@@ -2,6 +2,8 @@
 #include <Wire.h>
 #include <Adafruit_BMP280.h>
 
+float initialPressure;
+
 Adafruit_BMP280 bmp;
 
 void setup() {
@@ -19,6 +21,8 @@ void setup() {
                   Adafruit_BMP280::SAMPLING_X16,    /* Pressure oversampling */
                   Adafruit_BMP280::FILTER_X16,      /* Filtering. */
                   Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
+                  
+checkSeaPressure();                  
 }
 
 void loop() {
@@ -31,10 +35,15 @@ void loop() {
     Serial.println(" Pa");
 
     Serial.print(F("Approx altitude = "));
-    Serial.print(bmp.readAltitude(1013.25)); /* Adjusted to local forecast! */
+    Serial.print(bmp.readAltitude(initialPressure)); /* Adjusted to local forecast! */
     Serial.println(" m");
 
     Serial.println();
     delay(100);
 
 }
+
+void checkSeaPressure()
+{
+  initialPressure = bmp.readPressure()/100;
+  }
