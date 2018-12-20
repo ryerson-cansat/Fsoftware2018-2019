@@ -1,19 +1,44 @@
-// BMP280 Test File
+/*
+* BMP 280 from Adafruit
+* Measures Altitude, Temperature, and Pressure
+* Vin - 5V or 3V
+* GND - Ground
+* SCK - SCL or A5
+* SDI - SDA or A4
+* Pull-up Resistors - Connect Voltage to SDK and SDI using a resistor (~10kohm)
+*/
 #include <Wire.h>
 #include <Adafruit_BMP280.h>
 
+Adafruit_BMP280 bmp; 
 float initialPressure;
 
-Adafruit_BMP280 bmp;
+void setupBMP(){
+  initialPressure = bmp.readPressure()/100;
+}
 
-void setup() {
+float getTemp(){
+  return bmp.readTemperature();
+}
+
+float getAlt(){
+  return bmp.readAltitude(initialPressure);
+}
+
+float getPressure(){
+  return bmp.readPressure();
+}
+
+void setup(){
   Serial.begin(9600);
-  Serial.println(F("BMP280 test"));
-
-  if (!bmp.begin()) {
-    Serial.println(F("Could not find a valid BMP280 sensor, check wiring!"));
+  Serial.println("BMP280 test");
+  
+  if (!bmp.begin()) {  
+    Serial.println("Could not find a valid BMP280 sensor, check wiring!");
     while (1);
   }
+  setupBMP();
+  Serial.println (initialPressure);
 
   /* Default settings from datasheet. */
   bmp.setSampling(Adafruit_BMP280::MODE_NORMAL,     /* Operating Mode. */
@@ -21,29 +46,21 @@ void setup() {
                   Adafruit_BMP280::SAMPLING_X16,    /* Pressure oversampling */
                   Adafruit_BMP280::FILTER_X16,      /* Filtering. */
                   Adafruit_BMP280::STANDBY_MS_500); /* Standby time. */
-                  
-checkSeaPressure();                  
 }
 
 void loop() {
-    Serial.print(F("Temperature = "));
-    Serial.print(bmp.readTemperature());
+    Serial.print("Temperature = ");
+    Serial.print(getTemp());
     Serial.println(" *C");
-
-    Serial.print(F("Pressure = "));
-    Serial.print(bmp.readPressure());
+    
+    Serial.print("Pressure = ");
+    Serial.print(getPressure());
     Serial.println(" Pa");
 
-    Serial.print(F("Approx altitude = "));
-    Serial.print(bmp.readAltitude(initialPressure)); /* Adjusted to local forecast! */
+    Serial.print("Approx altitude = ");
+    Serial.print(getAlt()); // Adjusted to your local forecast! //
     Serial.println(" m");
-
+    
     Serial.println();
-    delay(100);
-
+    delay(1000);
 }
-
-void checkSeaPressure()
-{
-  initialPressure = bmp.readPressure()/100;
-  }
