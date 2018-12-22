@@ -9,7 +9,9 @@
 
 void setupRTC(){
   rtc.begin();
-  rtc.adjust(DateTime(2018, 11, 13, 0, 0, 0));
+  if (hasReset == false){
+      rtc.adjust(DateTime(2019, 1, 5, 0, 0, 0));
+  }
 }
 
 int getSeconds(){

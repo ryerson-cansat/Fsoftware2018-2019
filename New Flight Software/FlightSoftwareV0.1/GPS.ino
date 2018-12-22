@@ -2,6 +2,13 @@
 //////// Credits to Guy Gidalevich //////////////
 /////////////////////////////////////////////////
 
+/*
+ * Exact same code used in Cansat 2017-2018 
+ * Requires an open space and up to a few minutes to obtain satellites
+ */
+
+#define GPS_SS_Rx 4 
+#define GPS_SS_Tx 3
 #define GPSECHO false
 boolean usingInterrupt = false;
 
