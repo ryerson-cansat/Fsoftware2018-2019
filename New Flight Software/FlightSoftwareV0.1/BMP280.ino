@@ -9,8 +9,11 @@
 * I2C address of 0x0C and 0x77
 */
 
+float seaLevelPressure;
+
 void setupBMP(){
   bmp.begin();
+  // Sea Level Pressure must be in hPa for the readAltitude() function
   seaLevelPressure = bmp.readPressure()/100;
 }
 
