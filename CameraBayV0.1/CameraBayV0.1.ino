@@ -1,16 +1,47 @@
+// Magenetometer Libraries
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
+// Transmitter Libraries
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
+
+/*
+ * For the transceiver Pins,
+ * When facing upward, & the pins are oriented like:
+ *    ________________________________________
+ *   |1* 2*                                   |
+ *   |3* 4*  Rest of the module on this side  |
+ *   |5* 6*                                   |
+ *   |7* 8*___________________________________|
+ *   
+ * 1 3.3V
+ * 2 GND
+ * 3 Pin 7
+ * 4 Pin 8
+ * 5 Pin 13
+ * 6 Pin 11
+ * 7 Pin 12
+ * 8 EMPTY
+ * For more info,
+ * https://howtomechatronics.com/tutorials/arduino/arduino-wireless-communication-nrf24l01-tutorial/
+ */
 
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
-float heading, timer;
+float timer;
+float heading = 0;
 boolean detection = true;
+
+RF24 radio(7, 8); // CE, CSN
+const byte address[6] = "00001";
 
 /*
  * Once you have your heading, you must then add your 'Declination Angle', which is the 'Error' of the magnetic field in your location.
  * Find yours here: http://www.magnetic-declination.com/
  * Toronto's Declination is 10.5 degrees which is about 0.18 rad
 */
+
 float declinationAngle = 0.18;
 
 void setup(void) 
@@ -22,6 +53,12 @@ void setup(void)
     /* There was a problem detecting the HMC5883 ... check your connections */
     detection = false;
   }
+  /* Initialize the transceiver */
+  radio.begin();
+  radio.openWritingPipe(address);
+  radio.setPALevel(RF24_PA_MIN);
+  radio.stopListening();
+  
   timer = millis();
 }
 
@@ -48,11 +85,9 @@ void loop(void)
       // Convert radians to degrees for readability.
       heading = heading * 180/M_PI; 
     
-      Serial.println(heading);
+      
     }
-    // At least print 0 so we know that its not connected properly instead of blank data or errors
-    else {
-      Serial.println (0);
-    }
+  Serial.println(heading);
+  radio.write (&heading, sizeof(heading));
   }
 }
