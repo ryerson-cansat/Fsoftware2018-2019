@@ -4,6 +4,7 @@ void setupFunctions(){
   setupBMP();
   setupMPU();
   setupBuzzer();
+  setupGPS();
 }
 
 void getData(){
@@ -11,11 +12,13 @@ void getData(){
   TeleArray[TeleTemp] = getTemp();
   TeleArray[TelePressure] = getPressure();
   TeleArray[TeleAlt] = getAlt();
+  getGPS();
   TeleArray[TelePacket] = packetCount;
 }
 
 void getData2(){
   getTilt();
+  getSatellites();
 }
 
 void transmitData(){

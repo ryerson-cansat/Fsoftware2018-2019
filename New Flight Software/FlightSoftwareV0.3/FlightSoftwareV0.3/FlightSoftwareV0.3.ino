@@ -1,7 +1,8 @@
-// This is a modification of V0.2, meant for power tests. All future changes are to be done from this version onwards.
+// This is a modification of V0.2, meant for power tests.
 #include <Wire.h>
 #include <SoftwareSerial.h>
 #include <Adafruit_BMP280.h>
+#include <Adafruit_GPS.h>
 #include <SparkFunDS1307RTC.h>
 #include "quaternionFilters.h"
 #include "MPU9250.h"
@@ -27,7 +28,7 @@
 
 #define TeleArrayLength 17 //Array Length
 #define TeamID 1129 //Team ID
-
+#define HWSERIAL Serial2
 
 // Pin Declaration
 #define deployPinA 7
@@ -37,6 +38,7 @@
 // Sensor Declaration
 Adafruit_BMP280 bmp; 
 MPU9250 myIMU;
+Adafruit_GPS GPS(&HWSERIAL);
 
 // Global Variables
 int packetCount = 0;
@@ -64,6 +66,7 @@ boolean isDescending = false;
 void setup() {
   Serial.begin(19200);
   //checkStorage();
+  //Wire
   setupFunctions(); 
   TeleArray[TeleID] = (float)TeamID;
   teleTime = millis();
