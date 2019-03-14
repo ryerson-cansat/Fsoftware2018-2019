@@ -33,6 +33,7 @@ void setup()
 //   uncomment the below commented code to test out how writing to a csv file works
   root.print("R1C1");
   root.print(",");
+  root.print(12);
   root.println("R1C2");
 
   root.print("R2C1");

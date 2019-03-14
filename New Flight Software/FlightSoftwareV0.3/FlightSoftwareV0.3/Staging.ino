@@ -1,10 +1,14 @@
 void setupFunctions(){
   Wire.begin();
+  setupSD();
   setupRTC();
   setupBMP();
   setupMPU();
   setupBuzzer();
   setupGPS();
+  setupVoltage();
+  //pinMode(23, OUTPUT);
+  //digitalWrite(23, HIGH);
 }
 
 void getData(){
@@ -14,6 +18,7 @@ void getData(){
   TeleArray[TeleAlt] = getAlt();
   getGPS();
   TeleArray[TelePacket] = packetCount;
+  TeleArray[TeleVolt] = getVolt();
 }
 
 void getData2(){

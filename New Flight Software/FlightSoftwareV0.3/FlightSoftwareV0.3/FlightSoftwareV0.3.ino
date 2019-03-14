@@ -1,11 +1,13 @@
 // This is a modification of V0.2, meant for power tests.
 #include <Wire.h>
+#include <SPI.h>
 #include <SoftwareSerial.h>
 #include <Adafruit_BMP280.h>
 #include <Adafruit_GPS.h>
 #include <SparkFunDS1307RTC.h>
 #include "quaternionFilters.h"
 #include "MPU9250.h"
+#include <SD.h>
 
 // TeleArray Position
 #define TeleID 0 //Team ID
@@ -36,17 +38,22 @@
 #define buzzerPin 9
 
 // Sensor Declaration
-Adafruit_BMP280 bmp; 
+Adafruit_BMP280 bmp;
 MPU9250 myIMU;
 Adafruit_GPS GPS(&HWSERIAL);
 
+
 // Global Variables
+#define MPU9250_ADDRESS MPU9250_ADDRESS_AD1
 int packetCount = 0;
 float seaLevelPressure;
 float TeleArray[TeleArrayLength];
 boolean hasReset = false;
 long teleTime;
 long teleTime2;
+File root;
+File essential;
+const int chipSelect = BUILTIN_SDCARD;
 
 
 //Software States
@@ -65,21 +72,22 @@ boolean isDescending = false;
 
 void setup() {
   Serial.begin(19200);
-  //checkStorage();
-  //Wire
-  setupFunctions(); 
+
+  setupFunctions();
+  //checkSD();
   TeleArray[TeleID] = (float)TeamID;
   teleTime = millis();
   teleTime2 = millis();
 }
 
 void loop() {
-  if(teleTime - teleTime2 > 1000)
+  if (teleTime - teleTime2 > 1000)
   {
     packetCount++;
     getData();
     transmitData();
     teleTime2 = millis();
+    storeData();
   }
   getData2();
   teleTime = millis();
