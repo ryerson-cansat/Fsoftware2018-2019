@@ -7,8 +7,8 @@
 void setupSD() {
   //SD.begin(chipSelect);
   if (SD.begin(chipSelect)) {
-    root = SD.open("Tomahawk1129.csv", FILE_WRITE);
-    //essential = SD.open("Essential.csv", FILE_WRITE);
+    root = SD.open("Tomahawk.csv", FILE_WRITE);
+    root.close();
   }
 }
 
@@ -20,8 +20,9 @@ void checkSD() {
   if (essential.available()) {
     hasReset = true;
     // Get the sea level pressure and packet count
-    //TeleArray[TelePacket] = packetCount;
+    essential = SD.open("Essential.csv", FILE_WRITE);
     seaLevelPressure = essential.read();
+    essential.close();
   }
   else {
     storeEssentials();
@@ -32,6 +33,7 @@ void checkSD() {
    Stores the essentials to allow the Cansat to resume progress after a power reset
 */
 void storeEssentials() {
+  essential = SD.open("Essential.csv", FILE_WRITE);
   essential.print (seaLevelPressure);
   essential.close();
 }
@@ -40,7 +42,7 @@ void storeEssentials() {
    Stores the data into the SD card in a similar format as how the telemetry is transmitted
 */
 void storeData() {
-  root = SD.open("data.csv", FILE_WRITE);
+  root = SD.open("Tomahawk.csv", FILE_WRITE);
   root.print(TeleArray[TeleID]);
   root.print(",");
   root.print(TeleArray[TeleMissionTime]);
@@ -73,7 +75,7 @@ void storeData() {
   root.print(",");
   root.println(TeleArray[TeleState]);
   //root.println();
-  closeSD();
+  //closeSD();
 }
 
 void closeSD() {
