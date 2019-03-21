@@ -44,7 +44,6 @@ Adafruit_GPS GPS(&HWSERIAL);
 
 
 // Global Variables
-#define MPU9250_ADDRESS MPU9250_ADDRESS_AD1
 int packetCount = 0;
 float seaLevelPressure;
 float TeleArray[TeleArrayLength];
