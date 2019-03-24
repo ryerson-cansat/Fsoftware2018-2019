@@ -71,7 +71,7 @@ boolean isDescending = false;
 
 void setup() {
   Serial.begin(19200);
-
+  Serial3.begin(19200);
   setupFunctions();
   //checkSD();
   TeleArray[TeleID] = (float)TeamID;
