@@ -4,8 +4,8 @@
 
 float vi; //Value of voltage supplied
 float vo; //Value of voltage read from Arduino
-float r1 = 20000; //Resistor 1
-float r2 = 16000; //Resistor 2
+float r1 = 15000; //Resistor 1
+float r2 = 5100; //Resistor 2
 
 void setupVoltage()
 {
@@ -20,7 +20,7 @@ float getVolt()
   //Only applicable if the voltage between the resistors
   //Does not exceed 10V
 
-  float vo = sensorValue * (4/1023.0);
+  float vo = sensorValue * (3.3/1023.0);
 
   //Calculates vi using voltage division
   float vi = (vo * (r1 + r2))/(r2);
