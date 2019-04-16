@@ -19,6 +19,9 @@ void getData(){
   getGPS();
   TeleArray[TelePacket] = packetCount;
   TeleArray[TeleVolt] = getVolt();
+  TeleArray[TeleDirection] = 120.0;
+  TeleArray[TeleState] = 1;
+  TeleArray[TeleRPM] = 2200;
 }
 
 void getData2(){
@@ -51,13 +54,15 @@ void transmitData(){
   Serial.print(", ");
   Serial.print(TeleArray[TeleGSats]);
   Serial.print(", ");
-  Serial.print(TeleArray[TeleRPM]);
-  Serial.print(", ");
   Serial.print(TeleArray[TeleTiltY]);
   Serial.print(", ");
   Serial.print(TeleArray[TeleTiltZ]);
   Serial.print(", ");
+  Serial.print(TeleArray[TeleRPM]);
+  Serial.print(", ");
   Serial.print(TeleArray[TeleState]);
+  Serial.print(", ");
+  Serial.print(TeleArray[TeleDirection]);
   Serial.print("\n");
   Serial3.print(TeleArray[TeleID]);
   Serial3.print(", ");
@@ -83,12 +88,13 @@ void transmitData(){
   Serial3.print(", ");
   Serial3.print(TeleArray[TeleGSats]);
   Serial3.print(", ");
-  Serial3.print(TeleArray[TeleRPM]);
-  Serial3.print(", ");
   Serial3.print(TeleArray[TeleTiltY]);
   Serial3.print(", ");
   Serial3.print(TeleArray[TeleTiltZ]);
   Serial3.print(", ");
+  Serial3.print(TeleArray[TeleRPM]);
+  Serial3.print(", ");
   Serial3.print(TeleArray[TeleState]);
-  Serial3.print("\n");
+  Serial3.print(", ");
+  Serial3.println(TeleArray[TeleDirection]);
 }
