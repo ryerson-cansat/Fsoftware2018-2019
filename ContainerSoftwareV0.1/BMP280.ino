@@ -22,6 +22,7 @@ float getTemp(){
 }
 
 float getAlt(){
+  Serial.println (bmp.readAltitude(seaLevelPressure));
   return bmp.readAltitude(seaLevelPressure); // Takes pressure in hPa
 }
 

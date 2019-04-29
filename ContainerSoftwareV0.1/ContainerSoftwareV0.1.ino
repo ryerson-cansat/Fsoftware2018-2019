@@ -20,10 +20,10 @@ boolean isDescending = false;
 
 // Pin Declarations
 #define deployPinA 7
-#define deployPinB 8
 
 void setup() {
   // put your setup code here, to run once:
+  digitalWrite(deployPinA, LOW);
   Serial.begin(9600);
   Wire.begin();
   setupBMP();
@@ -33,6 +33,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   alt = getAlt();
   checkState();
+  delay (100);
 }
 
 /*
@@ -53,7 +54,7 @@ void checkState(){
     if (alt < 4){
       softwareState = Landed;
     }
-    else if (alt < 450){
+    else if (alt < 20){  //480m
       softwareState = Spinning;
       digitalWrite(deployPinA, HIGH);
     }

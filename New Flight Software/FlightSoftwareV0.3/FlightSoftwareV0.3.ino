@@ -36,8 +36,7 @@
 #define HWSERIAL Serial2
 
 // Pin Declaration
-#define deployPinA 7
-#define deployPinB 8
+#define deployPinA 6
 #define buzzerPin 9
 
 // Sensor Declaration
@@ -74,12 +73,13 @@ boolean isDescending = false;
 
 void setup() {
   Serial.begin(19200);
-  Serial3.begin(19200);
+  Serial4.begin(19200);
   setupFunctions();
   //checkSD();
   TeleArray[TeleID] = (float)TeamID;
   teleTime = millis();
   teleTime2 = millis();
+  //digitalWrite(deployPinA, LOW);
 }
 
 void loop() {
@@ -92,5 +92,6 @@ void loop() {
     storeData();
   }
   getData2();
+  receiveRadioData();
   teleTime = millis();
 }

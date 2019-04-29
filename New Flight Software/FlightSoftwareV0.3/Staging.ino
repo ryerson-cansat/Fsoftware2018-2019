@@ -8,7 +8,7 @@ void setupFunctions(){
   setupGPS();
   setupVoltage();
   setupReceiver();
-  //pinMode(23, OUTPUT);
+  pinMode(deployPinA, OUTPUT);
   //digitalWrite(23, HIGH);
 }
 
@@ -76,39 +76,39 @@ void transmitData(){
   Serial.print(", ");
   Serial.print(TeleArray[TeleDirection]);
   Serial.print("\n");
-  Serial3.print(TeleArray[TeleID]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleMissionTime]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TelePacket]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleAlt]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TelePressure]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleTemp]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleVolt]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleGTime]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleGLat]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleGLong]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleGAlt]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleGSats]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleTiltY]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleTiltZ]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleRPM]);
-  Serial3.print(", ");
-  Serial3.print(TeleArray[TeleState]);
-  Serial3.print(", ");
-  Serial3.println(TeleArray[TeleDirection]);
+  Serial4.print(TeleArray[TeleID]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleMissionTime]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TelePacket]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleAlt]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TelePressure]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleTemp]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleVolt]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleGTime]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleGLat]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleGLong]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleGAlt]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleGSats]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleTiltY]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleTiltZ]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleRPM]);
+  Serial4.print(", ");
+  Serial4.print(TeleArray[TeleState]);
+  Serial4.print(", ");
+  Serial4.println(TeleArray[TeleDirection]);
 }
 
 /*
@@ -116,14 +116,16 @@ void transmitData(){
  * This would be done through the XBee and the groundstation
  */
 void receiveRadioData() {
-  if (Serial.available()) {
-    String RadioReceive = Serial.readString();
-    if (RadioReceive == "A")
+  if (Serial4.available()>0) {
+    byte input = Serial4.read();
+    //String RadioReceive = Serial4.readString();
+    //Serial4.println (Serial4.read());
+    if (input == 65)
     {
       digitalWrite(deployPinA, HIGH);
     }
-    if (RadioReceive == "B"){
-      digitalWrite(deployPinB, HIGH);
+    if (input == 66){
+      digitalWrite(deployPinA, LOW);
     }
   }
 }
