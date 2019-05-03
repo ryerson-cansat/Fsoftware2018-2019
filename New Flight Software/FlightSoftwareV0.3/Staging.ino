@@ -8,6 +8,7 @@ void setupFunctions(){
   setupGPS();
   setupVoltage();
   setupReceiver();
+  setupTachometer();
   pinMode(deployPinA, OUTPUT);
   //digitalWrite(23, HIGH);
 }
@@ -26,8 +27,7 @@ void getData(){
   getGPS();
   TeleArray[TelePacket] = packetCount;
   TeleArray[TeleVolt] = getVolt();
-  TeleArray[TeleState] = 1;
-  TeleArray[TeleRPM] = 2200;
+  checkState();
 }
 
 /*
@@ -39,6 +39,7 @@ void getData2(){
   getTilt();
   getSatellites();
   getDirection();
+  getRPM();
 }
 
 void transmitData(){
@@ -120,11 +121,11 @@ void receiveRadioData() {
     byte input = Serial4.read();
     //String RadioReceive = Serial4.readString();
     //Serial4.println (Serial4.read());
-    if (input == 65)
+    if (input == 65) // Translates to "A"
     {
       digitalWrite(deployPinA, HIGH);
     }
-    if (input == 66){
+    if (input == 66){ // Translates to "B"
       digitalWrite(deployPinA, LOW);
     }
   }
@@ -150,10 +151,11 @@ void checkState(){
       startBuzzer();
       closeSD();
     }
-    else if (TeleArray[TeleAlt] < 450){
+    else if (TeleArray[TeleAlt] < 480){ // Use 480m instead of 450 due to any lag during the one second the altitude isnt measured
       softwareState = Spinning;
     }
   }
+  TeleArray [TeleState] = softwareState;
 }
 
 /*
