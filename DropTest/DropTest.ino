@@ -36,7 +36,7 @@
 #define HWSERIAL Serial2
 
 // Pin Declaration
-#define deployPinA 6
+#define deployPinA 5
 #define buzzerPin 9
 
 // Sensor Declaration

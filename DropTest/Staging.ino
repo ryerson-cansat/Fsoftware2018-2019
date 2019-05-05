@@ -10,7 +10,7 @@ void setupFunctions(){
   setupReceiver();
   setupTachometer();
   pinMode(deployPinA, OUTPUT);
-  //digitalWrite(23, HIGH);
+  digitalWrite(deployPinA, LOW);
 }
 
 /*

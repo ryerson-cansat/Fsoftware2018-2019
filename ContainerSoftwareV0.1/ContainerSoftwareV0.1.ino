@@ -8,6 +8,7 @@ float alt;
 int softwareState;
 float lastAlt = 0;
 float lastAlt2 = 0;
+float lastAlt3 = 0;
 boolean hasFlown = false;
 boolean isDescending = false;
 
@@ -23,6 +24,7 @@ boolean isDescending = false;
 
 void setup() {
   // put your setup code here, to run once:
+  pinMode(deployPinA,OUTPUT);
   digitalWrite(deployPinA, LOW);
   Serial.begin(9600);
   Wire.begin();
@@ -33,7 +35,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   alt = getAlt();
   checkState();
-  delay (100);
+  delay (500);
 }
 
 /*
@@ -85,10 +87,13 @@ void checkDescend (float alt)
     {
       if (alt < lastAlt2) // Double check in case a bad altitude was measured
       {
+        if (alt < lastAlt3){
         isDescending = true;
+        }
       }
     }
   }
+  lastAlt3 = lastAlt2;
   lastAlt2 = lastAlt;
   lastAlt = alt;
 }
