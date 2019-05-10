@@ -21,11 +21,11 @@ void getRPM (){
       futureTime = currentTime + runTime;
       prevTime = futureTime; // To prevent relasping, we need to say prevTime is at futureTime for proper idle time
       REV = 0;
-      attachInterrupt(digitalPinToInterrupt(5), RPMCount, RISING); // If not using Arduino Uno, change 0 to digitalPinToInterrupt(x) where x is a digital pin
+      attachInterrupt(0, RPMCount, RISING); // If not using Arduino Uno, change 0 to digitalPinToInterrupt(x) where x is a digital pin
   }
   if (futureTime - currentTime <=0 && futureTime != 0){
       futureTime = 0;
-      detachInterrupt(digitalPinToInterrupt(5));
+      detachInterrupt(0);
       rpm = 30*1000/(runTime)*REV; // Rev/second * 60s/1min but we divide by 2 for some reason
       TeleArray[TeleRPM] = rpm;
       // Reset REV
