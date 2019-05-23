@@ -37,7 +37,7 @@
 
 // Pin Declaration
 #define deployPinA 5
-#define buzzerPin 9
+#define buzzerPin 28
 
 // Sensor Declaration
 Adafruit_BMP280 bmp;
