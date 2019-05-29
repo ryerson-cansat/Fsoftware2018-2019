@@ -83,7 +83,7 @@ void setup() {
 }
 
 void loop() {
-  if (teleTime - teleTime2 > 500)
+  if (teleTime - teleTime2 > 1000)
   {
     packetCount++;
     getData();
