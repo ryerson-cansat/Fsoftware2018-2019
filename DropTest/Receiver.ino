@@ -3,7 +3,7 @@
  * https://howtomechatronics.com/tutorials/arduino/arduino-wireless-communication-nrf24l01-tutorial/
  * For connections, look at slack
  */
-const byte address[6] = "00001"; // Channel
+const byte address[6] = "11223"; // Channel
 
 void setupReceiver(){
   radio.begin();
