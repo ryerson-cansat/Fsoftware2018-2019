@@ -10,7 +10,7 @@
 #include <SD.h>
 #include <nRF24L01.h>
 #include <RF24.h>
-
+#include <EEPROM.h>
 
 // TeleArray Position
 #define TeleID 0 //Team ID
@@ -52,8 +52,9 @@ float TeleArray[TeleArrayLength];
 boolean hasReset = false;
 long teleTime;
 long teleTime2;
+long releaseTimer;
+boolean releaseStopper = false;
 File root;
-File ess;
 const int chipSelect = BUILTIN_SDCARD;
 
 
@@ -68,6 +69,7 @@ const int chipSelect = BUILTIN_SDCARD;
 int softwareState;
 float lastAlt = 0;
 float lastAlt2 = 0;
+float lastAlt3 = 0;
 boolean hasFlown = false;
 boolean isDescending = false;
 
@@ -75,11 +77,10 @@ void setup() {
   Serial.begin(19200);
   Serial4.begin(19200);
   setupFunctions();
-  checkSD();
+  checkEEPROM();
   TeleArray[TeleID] = (float)TeamID;
   teleTime = millis();
   teleTime2 = millis();
-  //digitalWrite(deployPinA, LOW);
 }
 
 void loop() {
@@ -90,6 +91,7 @@ void loop() {
     transmitData();
     teleTime2 = millis();
     storeData();
+    storeEssentials();
   }
   getData2();
   receiveRadioData();

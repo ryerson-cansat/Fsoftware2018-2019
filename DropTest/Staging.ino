@@ -124,9 +124,16 @@ void receiveRadioData() {
     if (input == 65) // Translates to "A"
     {
       digitalWrite(deployPinA, HIGH);
+      releaseTimer = millis();
+      releaseStopper = true;
     }
     if (input == 66){ // Translates to "B"
       digitalWrite(deployPinA, LOW);
+    }
+  }
+  if (releaseStopper == true){
+    if ((teleTime - releaseTimer)) > 10000){
+      digitalWrite (deployPinA, LOW);
     }
   }
 }
@@ -147,12 +154,14 @@ void checkState(){
   else if (isDescending == true){
     softwareState = Descending;
     if (TeleArray[TeleAlt] < 4){
+      digitalWrite(deployPinA, LOW);
       softwareState = Landed;
       startBuzzer();
       closeSD();
     }
-    else if (TeleArray[TeleAlt] < 480){ // Use 480m instead of 450 due to any lag during the one second the altitude isnt measured
+    else if (TeleArray[TeleAlt] < 500){ // Use 480m instead of 450 due to any lag during the one second the altitude isnt measured
       softwareState = Spinning;
+      digitalWrite(deployPinA, HIGH);
     }
   }
   TeleArray [TeleState] = softwareState;
@@ -164,7 +173,7 @@ void checkState(){
  * it can be considered flying
  */
 void checkFlown(float alt){
-  if (alt > 10){ // Change to 10m
+  if (alt > 10){
     hasFlown = true;
   }
 }
@@ -182,10 +191,14 @@ void checkDescend (float alt)
     {
       if (alt < lastAlt2) // Double check in case a bad altitude was measured
       {
-        isDescending = true;
+        if (alt < lastAlt3) // Triple Check
+        {
+          isDescending = true;
+        }
       }
     }
   }
+  lastAlt3 = lastAlt2;
   lastAlt2 = lastAlt;
   lastAlt = alt;
 }

@@ -3,49 +3,13 @@
    No pins needed
 */
 
-float something;
+
 void setupSD() {
   //SD.begin(chipSelect);
   if (SD.begin(chipSelect)) {
     root = SD.open("Tomahawk.csv", FILE_WRITE);
     root.close();
-    //delay (100);
-    //ess = SD.open ("Essential.csv", FILE_WRITE);
-    //ess.close();
   }
-}
-
-/*
-   Checks the SD card if there is any data in it and extract the essentials
-   If the SD card doesn't have any data in it, store the essentials
-*/
-void checkSD() {
-  //ess = SD.open("Essential.csv");
-  //if (ess.available()) {
-    //hasReset = true;
-    //seaLevelPressure = ess.read();
-    //ess.close();
-  //}
-  //else {
-    //storeEssentials();
-  //}
-  //root = SD.open ("Tomahawk.csv");
-  //if (root.available()){
-    //hasReset = true;
-    //while (root.available()){
-      //Serial.println (root.read());
-    //}
-  //}
-  //root.close();
-}
-
-/*
-   Stores the essentials to allow the Cansat to resume progress after a power reset
-*/
-void storeEssentials() {
-  ess = SD.open("Essential.csv", FILE_WRITE);
-  ess.print (seaLevelPressure);
-  ess.close();
 }
 
 /*
@@ -85,7 +49,7 @@ void storeData() {
   root.print(",");
   root.print(TeleArray[TeleState]);
   root.print(",");
-  root.println(TeleArray[TeleDirection]);
+  root.println (TeleArray[TeleDirection]);
   //root.println();
   closeSD();
 }
