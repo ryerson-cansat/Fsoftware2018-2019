@@ -21,10 +21,12 @@ boolean isDescending = false;
 
 // Pin Declarations
 #define deployPinA 7
+int count=0;
 
 void setup() {
   // put your setup code here, to run once:
   pinMode(deployPinA,OUTPUT);
+  int count = 0;
   digitalWrite(deployPinA, LOW);
   Serial.begin(9600);
   Wire.begin();
@@ -56,9 +58,14 @@ void checkState(){
     if (alt < 4){
       softwareState = Landed;
     }
-    else if (alt < 20){  //480m
+    else if (alt < 60){  //480m
       softwareState = Spinning;
       digitalWrite(deployPinA, HIGH);
+      count++;
+      if (count > 20) // Each delay count is 500 ms, so 10 seconds would be 20 intervals
+      {
+        digitalWrite(deployPinA, LOW);
+      }
     }
   }
 }

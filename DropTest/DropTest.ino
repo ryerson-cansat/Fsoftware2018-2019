@@ -53,7 +53,7 @@ boolean hasReset = false;
 long teleTime;
 long teleTime2;
 File root;
-File essential;
+File ess;
 const int chipSelect = BUILTIN_SDCARD;
 
 
@@ -75,7 +75,7 @@ void setup() {
   Serial.begin(19200);
   Serial4.begin(19200);
   setupFunctions();
-  //checkSD();
+  checkSD();
   TeleArray[TeleID] = (float)TeamID;
   teleTime = millis();
   teleTime2 = millis();

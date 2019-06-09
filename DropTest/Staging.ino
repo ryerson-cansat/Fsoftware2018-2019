@@ -164,7 +164,7 @@ void checkState(){
  * it can be considered flying
  */
 void checkFlown(float alt){
-  if (alt > 5){
+  if (alt > 10){ // Change to 10m
     hasFlown = true;
   }
 }
