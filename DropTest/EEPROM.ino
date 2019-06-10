@@ -43,7 +43,7 @@ boolean dataReset()
   boolean answer;
   oldPacketCount = readFloat(4);
   // old if statement: packetCount == 0 && oldPacketCount > 1
-  root = SD.open("Tomahawk.csv", FILE_WRITE);
+  root = SD.open("Tomahawk.csv");
   if (root.available()) // If the SD Card has stuff in it, we need to get the old data back
   {
     answer = true; // The arduino has reset

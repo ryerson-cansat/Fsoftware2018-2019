@@ -76,7 +76,7 @@ void checkState(){
  * it can be considered flying
  */
 void checkFlown(float alt){
-  if (alt > 5){
+  if (alt > 20){
     hasFlown = true;
   }
 }

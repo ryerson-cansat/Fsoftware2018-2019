@@ -77,7 +77,7 @@ void setup() {
   Serial.begin(19200);
   Serial4.begin(19200);
   setupFunctions();
-  checkEEPROM();
+  //checkEEPROM();
   TeleArray[TeleID] = (float)TeamID;
   teleTime = millis();
   teleTime2 = millis();
@@ -91,7 +91,7 @@ void loop() {
     transmitData();
     teleTime2 = millis();
     storeData();
-    storeEssentials();
+    //storeEssentials();
   }
   getData2();
   receiveRadioData();

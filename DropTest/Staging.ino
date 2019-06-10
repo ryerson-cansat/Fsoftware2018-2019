@@ -132,7 +132,7 @@ void receiveRadioData() {
     }
   }
   if (releaseStopper == true){
-    if ((teleTime - releaseTimer)) > 10000){
+    if ((teleTime - releaseTimer) > 10000){
       digitalWrite (deployPinA, LOW);
     }
   }
