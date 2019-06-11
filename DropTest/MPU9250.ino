@@ -48,6 +48,10 @@ void getTilt() {
   MahonyQuaternionUpdate(myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx * DEG_TO_RAD,
                          myIMU.gy * DEG_TO_RAD, myIMU.gz * DEG_TO_RAD, myIMU.my,
                          myIMU.mx, myIMU.mz, myIMU.deltat);
+  myIMU.yaw   = atan2(2.0f * (*(getQ()+1) * *(getQ()+2) + *getQ()
+                    * *(getQ()+3)), *getQ() * *getQ() + *(getQ()+1)
+                    * *(getQ()+1) - *(getQ()+2) * *(getQ()+2) - *(getQ()+3)
+                    * *(getQ()+3));
   myIMU.pitch = -asin(2.0f * (*(getQ()+1) * *(getQ()+3) - *getQ()
                     * *(getQ()+2)));
   myIMU.roll  = atan2(2.0f * (*getQ() * *(getQ()+1) + *(getQ()+2)
@@ -56,9 +60,12 @@ void getTilt() {
                     * *(getQ()+3));
   myIMU.pitch *= RAD_TO_DEG;
   myIMU.roll *= RAD_TO_DEG;
+  myIMU.yaw *= RAD_TO_DEG;
   // Declination of Ryerson University (43°39'31.5"N 79°22'45.5"W) is
   // 10.46° W  ± 0.38° at 2018-10-19
   // - http://www.ngdc.noaa.gov/geomag-web/#declination
+  myIMU.yaw  = myIMU.yaw + 10.5;
+  TeleArray[TeleDirection] = myIMU.yaw;
   TeleArray[TeleTiltY] = myIMU.pitch;
   TeleArray[TeleTiltZ] = myIMU.roll;
 }

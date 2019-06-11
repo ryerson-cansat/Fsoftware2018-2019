@@ -3,6 +3,7 @@
 
 Adafruit_BMP280 bmp; 
 float alt;
+//boolean check = false;
 
 //State Variables
 int softwareState;
@@ -37,9 +38,8 @@ void loop() {
   // put your main code here, to run repeatedly:
   alt = getAlt();
   checkState();
-  delay (500);
+  delay (500);  
 }
-
 /*
  * Checks current software state
  */
@@ -57,6 +57,7 @@ void checkState(){
     softwareState = Descending;
     if (alt < 4){
       softwareState = Landed;
+      digitalWrite(deployPinA, LOW);
     }
     else if (alt < 60){  //480m
       softwareState = Spinning;

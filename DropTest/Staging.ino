@@ -1,13 +1,20 @@
+/*
+ * EEPROM Must be after the SD card setup
+ * RTC must be after EEPROM 
+ * BMP must be before EEPROM
+ */
 void setupFunctions(){
   Wire.begin();
-  setupSD();
-  setupRTC();
+  SPI.begin();
   setupBMP();
+  setupSD();
+  setupEEPROM();
+  setupRTC();
   setupMPU();
   setupBuzzer();
   setupGPS();
   setupVoltage();
-  setupReceiver();
+  //setupRF24();
   setupTachometer();
   pinMode(deployPinA, OUTPUT);
   digitalWrite(deployPinA, LOW);
@@ -38,8 +45,8 @@ void getData(){
 void getData2(){
   getTilt();
   getSatellites();
-  getDirection();
   getRPM();
+  //TeleArray[TeleDirection] = enableGetData();
 }
 
 void transmitData(){

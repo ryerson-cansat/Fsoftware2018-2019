@@ -1,4 +1,5 @@
 float oldPacketCount = 0;
+float oldSoftwareState = 0;
 
 // This union is for converting floats into bytes for storing into the EEPROM
 union{
@@ -17,18 +18,21 @@ union {
  */
 void storeEssentials(){
   writeFloat (4, packetCount);
-  writeFloat (8, softwareState);
+  if (softwareState != oldSoftwareState){
+    writeFloat (8, softwareState);
+  }
 }
 
 /*
  * 
  */
-void checkEEPROM(){
+void setupEEPROM(){
   if (dataReset() == true){
     seaLevelPressure = readFloat(0);
     packetCount = readFloat (4);
     softwareState = readFloat (8);
     TeleArray[TelePacket] = packetCount; // If this line is not added, a packet count of 1 will be transmitted
+    hasReset = true;
   }
   else{
     writeFloat (0, seaLevelPressure);
@@ -43,8 +47,7 @@ boolean dataReset()
   boolean answer;
   oldPacketCount = readFloat(4);
   // old if statement: packetCount == 0 && oldPacketCount > 1
-  root = SD.open("Tomahawk.csv");
-  if (root.available()) // If the SD Card has stuff in it, we need to get the old data back
+  if (SD.exists("Reset.txt")) // If the SD Card has stuff in it, we need to get the old data back
   {
     answer = true; // The arduino has reset
     packetCount = oldPacketCount; // Take the old packet count
@@ -52,8 +55,10 @@ boolean dataReset()
   else
   {
     answer = false; // Arduino has not reset
+    root = SD.open ("Reset.txt", FILE_WRITE);
+    delay(10);
+    root.close();
   } 
-  root.close();
   return answer;
 }
 
@@ -94,8 +99,10 @@ void writeAddress(int address, byte val)
 //  Wire.endTransmission();
 //  // Delay must be at least 4 milliseconds, but 5 milliseconds is used just in case
 //  delay(5);
-  EEPROM.write(address, val);
-  delay(5);
+  if (EEPROM.read(address) != val){
+    EEPROM.write(address, val);
+  }
+  delay(10);
 }
 
 // Reads the address on the external EEPROM, which will be a byte
@@ -109,5 +116,6 @@ byte readAddress(int address)
 //  Wire.requestFrom(EEPROM_I2C_ADDRESS, 1);  
 //  rData =  Wire.read();
 //  return rData;
-  EEPROM.read(address);
+  delay (10);
+  return EEPROM.read(address);
 }

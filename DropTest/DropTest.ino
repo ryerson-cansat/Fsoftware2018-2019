@@ -1,7 +1,7 @@
 // This is a modification of V0.2, meant for power tests.
 #include <Wire.h>
 #include <SPI.h>
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
 #include <Adafruit_BMP280.h>
 #include <Adafruit_GPS.h>
 #include <SparkFunDS1307RTC.h>
@@ -77,7 +77,6 @@ void setup() {
   Serial.begin(19200);
   Serial4.begin(19200);
   setupFunctions();
-  //checkEEPROM();
   TeleArray[TeleID] = (float)TeamID;
   teleTime = millis();
   teleTime2 = millis();
@@ -91,7 +90,7 @@ void loop() {
     transmitData();
     teleTime2 = millis();
     storeData();
-    //storeEssentials();
+    storeEssentials();
   }
   getData2();
   receiveRadioData();

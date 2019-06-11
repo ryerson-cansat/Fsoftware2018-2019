@@ -15,6 +15,7 @@ void setupBMP(){
   bmp.begin();
   // Sea Level Pressure must be in hPa for the readAltitude() function
   seaLevelPressure = bmp.readPressure()/100;
+  
 }
 
 float getTemp(){
@@ -25,6 +26,27 @@ float getAlt(){
   Serial.println (bmp.readAltitude(seaLevelPressure));
   Serial.println (bmp.readPressure());
   return bmp.readAltitude(seaLevelPressure); // Takes pressure in hPa
+//  if(alt==70)
+//  {
+//   check = true;
+//   alt--; 
+//  }
+//  if(alt<70)
+//  {
+//    if (check == false)
+//    {
+//      alt++;
+//    }
+//    else
+//    {
+//      alt--;
+//    }
+//  }
+//  
+//  Serial.print(alt);
+//  Serial.print(", ");
+//  Serial.println(softwareState);
+//  return alt;
 }
 
 float getPressure(){
