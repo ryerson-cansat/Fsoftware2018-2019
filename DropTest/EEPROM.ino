@@ -116,6 +116,6 @@ byte readAddress(int address)
 //  Wire.requestFrom(EEPROM_I2C_ADDRESS, 1);  
 //  rData =  Wire.read();
 //  return rData;
-  delay (10);
+  delay (5);
   return EEPROM.read(address);
 }

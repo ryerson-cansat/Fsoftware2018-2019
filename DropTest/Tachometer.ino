@@ -8,7 +8,7 @@ int futureTime = 0;
 int prevTime = 0; 
 int currentTime = 0;
 int idleTime = 1000; // Idle time. This is when the Arduino is doing nothing
-int runTime = 500; // Run time. This time interval will be used to calculate the rpm
+int runTime = 1000; // Run time. This time interval will be used to calculate the rpm
 
 void setupTachometer (){
   REV = 0;
@@ -23,7 +23,7 @@ void getRPM (){
       REV = 0;
       attachInterrupt(0, RPMCount, RISING); // If not using Arduino Uno, change 0 to digitalPinToInterrupt(x) where x is a digital pin
   }
-  if (futureTime - currentTime <=0 && futureTime != 0){
+  if (futureTime - currentTime <=0 && futureTime != 0){ // When the current time has exceeded the expected future time, we stop
       futureTime = 0;
       detachInterrupt(0);
       rpm = 30*1000/(runTime)*REV; // Rev/second * 60s/1min but we divide by 2 for some reason

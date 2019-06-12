@@ -9,7 +9,8 @@
 * I2C address of 0x0C and 0x77
 */
 
-
+float alt2 = 0;
+boolean check = false;
 
 void setupBMP(){
   bmp.begin();
@@ -22,8 +23,33 @@ float getTemp(){
   return bmp.readTemperature();
 }
 
+/*
+ * returns a float of the altitude
+ * can use the bmp altitude or testing altitude, which simply rises and falls
+ */
 float getAlt(){
+  // For real altitude use this line
   return bmp.readAltitude(seaLevelPressure); // Takes pressure in hPa
+
+  // For testing altitude, use this bottom block
+//  if(alt2==70)
+//  {
+//   check = true;
+//   alt2--; 
+//  }
+//  if(alt2<70)
+//  {
+//    if (check == false)
+//    {
+//      alt2++;
+//    }
+//    else
+//    {
+//      alt2--;
+//    }
+//  }
+//  
+//  return alt2;
 }
 
 float getPressure(){

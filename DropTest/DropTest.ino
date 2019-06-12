@@ -52,8 +52,10 @@ float TeleArray[TeleArrayLength];
 boolean hasReset = false;
 long teleTime;
 long teleTime2;
-long releaseTimer;
+float releaseTimer;
+float releaseTimer2;
 boolean releaseStopper = false;
+boolean releaseStopper2 = false;
 File root;
 const int chipSelect = BUILTIN_SDCARD;
 

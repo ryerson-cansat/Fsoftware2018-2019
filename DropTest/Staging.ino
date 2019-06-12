@@ -139,7 +139,7 @@ void receiveRadioData() {
     }
   }
   if (releaseStopper == true){
-    if ((teleTime - releaseTimer) > 10000){
+    if ((teleTime - releaseTimer) > 8000){
       digitalWrite (deployPinA, LOW);
     }
   }
@@ -147,6 +147,8 @@ void receiveRadioData() {
 
 /*
  * Checks current software state
+ * reminder: 1 is preflight, 2 is ascending, 3 is descending, 4 is spinning, and 5 is landed
+ * The software state is very dependant on altitude
  */
 void checkState(){
   checkFlown(TeleArray[TeleAlt]); //Did it fly
@@ -160,15 +162,22 @@ void checkState(){
   // But in order to have landed, it must have descended first
   else if (isDescending == true){
     softwareState = Descending;
-    if (TeleArray[TeleAlt] < 4){
-      digitalWrite(deployPinA, LOW);
+    if (TeleArray[TeleAlt] < 5){
+      //digitalWrite(deployPinA, LOW);
       softwareState = Landed;
       startBuzzer();
       closeSD();
     }
-    else if (TeleArray[TeleAlt] < 500){ // Use 480m instead of 450 due to any lag during the one second the altitude isnt measured
+    else if (TeleArray[TeleAlt] < 60){ // Use 480m instead of 450 due to any lag during the one second the altitude isnt measured
       softwareState = Spinning;
       digitalWrite(deployPinA, HIGH);
+      releaseStopper2 = true;
+      releaseTimer2 = millis();
+    }
+  }
+  if (releaseStopper2 == true){
+    if ((teleTime - releaseTimer2) > 8000){
+      digitalWrite(deployPinA, LOW);
     }
   }
   TeleArray [TeleState] = softwareState;
@@ -180,7 +189,7 @@ void checkState(){
  * it can be considered flying
  */
 void checkFlown(float alt){
-  if (alt > 10){
+  if (alt > 20){
     hasFlown = true;
   }
 }
