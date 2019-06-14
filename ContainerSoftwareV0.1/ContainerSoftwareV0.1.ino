@@ -3,7 +3,7 @@
 
 Adafruit_BMP280 bmp; 
 float alt;
-//boolean check = false;
+boolean check = false;
 
 //State Variables
 int softwareState;
@@ -59,7 +59,7 @@ void checkState(){
       softwareState = Landed;
       digitalWrite(deployPinA, LOW);
     }
-    else if (alt < 60){  //480m
+    else if (alt < 510){  //480m
       softwareState = Spinning;
       digitalWrite(deployPinA, HIGH);
       count++;

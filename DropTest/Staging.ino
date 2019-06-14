@@ -168,7 +168,7 @@ void checkState(){
       startBuzzer();
       closeSD();
     }
-    else if (TeleArray[TeleAlt] < 60){ // Use 480m instead of 450 due to any lag during the one second the altitude isnt measured
+    else if (TeleArray[TeleAlt] < 510){ // Use 480m instead of 450 due to any lag during the one second the altitude isnt measured
       softwareState = Spinning;
       digitalWrite(deployPinA, HIGH);
       releaseStopper2 = true;

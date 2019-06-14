@@ -26,20 +26,20 @@ float getAlt(){
   Serial.println (bmp.readAltitude(seaLevelPressure));
   Serial.println (bmp.readPressure());
   return bmp.readAltitude(seaLevelPressure); // Takes pressure in hPa
-//  if(alt==70)
+//  if(alt==750)
 //  {
 //   check = true;
-//   alt--; 
+//   alt=alt-5; 
 //  }
-//  if(alt<70)
+//  else if(alt<750)
 //  {
 //    if (check == false)
 //    {
-//      alt++;
+//      alt=alt+5;
 //    }
 //    else
 //    {
-//      alt--;
+//      alt=alt-5;
 //    }
 //  }
 //  
